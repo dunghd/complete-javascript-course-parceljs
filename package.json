@@ -1,0 +1,11 @@
+{
+  "name": "complete-javascript-course-parceljs",
+  "source": "src/index.html",
+  "scripts": {
+    "start": "parcel",
+    "build": "parcel build"
+  },
+  "devDependencies": {
+    "parcel": "latest"
+  }
+}
