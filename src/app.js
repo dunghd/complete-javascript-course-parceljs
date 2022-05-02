@@ -1,27 +1,58 @@
 "use strict";
 
-function rotLeft(a, d) {
-  return [].concat(a.slice(d), a.slice(0, d));
+function minimumBribes(q) {
+  // Write your code here
+  let nbBribe = 0;
+  let personBribed = {};
+  let tooChaotic = false;
+
+  for (let i = q.length - 1; i > 0; i--) {
+    let noSwaps = true;
+    for (let j = 0; j < i; j++) {
+      if (q[j] > q[j + 1]) {
+        personBribed[q[j]] = (personBribed[q[j]] || 0) + 1;
+
+        if (personBribed[q[j]] > 2) {
+          tooChaotic = true;
+          console.log(`Too chaotic`);
+          break;
+        }
+
+        nbBribe++;
+        [q[j], q[j + 1]] = [q[j + 1], q[j]];
+        noSwaps = false;
+      }
+    }
+
+    if (tooChaotic || noSwaps) {
+      break;
+    }
+  }
+
+  if (!tooChaotic) {
+    console.log(nbBribe);
+  }
 }
 
 /*
-d = 4
-[1, 2, 3, 4, 5] => [2, 3, 4, 5, 1] => [3, 4, 5, 1, 2] => [4, 5, 1, 2, 3] => [5, 1, 2, 3, 4]
+  Similar Bubble sort?
 
-[1, 2, 3, 4, 5]   d = 4 =>   [5, 1, 2, 3, 4]
- 0  1  2  3  4                4  0  1  2  3
+  [2, 5, 1, 3, 4]
 
-[1, 2, 3, 4, 5]   d = 2 =>   [3, 4, 5, 1, 2]
- 0  1  2  3  4                2  3  4  0  1
+   i =>  
 
-2 array
-- 1 original
-- 2 new arr will be returned
+  i = 0: 2 < 5 ? true i++
+  i = 1: 5 < 1 ? false => replace(5, 1) i++
 
-2nd array will be:
-- first part: element 1st arr[d] -> 1st arr[length - 1]
-- second part: element arr[0] -> element arr[d - 1]
+  [2, 1, 5, 3, 4] => 3
+  [2, 5, 1, 3, 4] => Too chaotic
+  5 > 1 swap
+  5 > 3 swap
+  5 > 4 swap
 
 */
 
-console.log(rotLeft([1, 2, 3, 4, 5], 4));
+// console.log(minimumBribes([1, 2, 5, 3, 7, 8, 6, 4]));
+// console.log(minimumBribes([1, 2, 3, 5, 4, 6, 7, 8]));
+// console.log(minimumBribes([2, 1, 5, 3, 4]));
+console.log(minimumBribes([2, 5, 1, 3, 4]));
