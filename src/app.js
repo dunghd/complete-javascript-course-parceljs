@@ -1,41 +1,42 @@
 "use strict";
 
-function possibleChanges(usernames) {
-  // Write your code here
-  const results = [];
+function solution(inputString) {
+  const alphabet = "abcdefghijklmnopqrstuvwxyz";
+  const frequency = {};
 
-  for (let i = 0; i < usernames.length; i++) {
-    const name = usernames[i];
-    let isCanChange = false;
+  for (let i = 0; i < inputString.length; i++) {
+    // console.log(inputString[i]);
 
-    for (let j = 0; j < name.length - 1; j++) {
-      if (
-        name[j] !== name[j + 1] &&
-        name[j].localeCompare(name[j + 1]) !== -1
-      ) {
-        results.push("YES");
-        isCanChange = true;
-        break;
-      } else {
-        continue;
-      }
+    if (!frequency[inputString[i]]) {
+      frequency[inputString[i]] = 0;
     }
 
-    if (!isCanChange) {
-      results.push("NO");
+    frequency[inputString[i]] += 1;
+  }
+
+  let isBeautiful = true;
+
+  for (let i = 1; i < alphabet.length; i++) {
+    const currentLetter = frequency[alphabet[i]] ?? 0;
+    const previousLetter = frequency[alphabet[i - 1]] ?? 0;
+
+    if (currentLetter > previousLetter) {
+      isBeautiful = false;
     }
   }
 
-  return results;
+  return isBeautiful;
 }
 
 /*
 
-Take first letter:
-- Compare first letter with each remaining character:
-    if first > letter[i] return YES; break;
-    else continue;
+For loop go through the inputString
+- Collect the frequency of each letter push in the array to compare with the list of the ordered alphabet
+- For loop through alphabet
+  foreach letter in alphabet check it in frequency whether its DOESN'T have more frequency than the previous letter
 
 */
 
-console.log(possibleChanges(["bee", "superhero", "aec"]));
+console.log(solution(`bbbaacdafe`));
+console.log(solution(`aabbb`));
+console.log(solution(`bbc`));
